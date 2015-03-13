@@ -1,0 +1,36 @@
+Mcalx - matrix calculator
+=========================
+
+MCalx is a small and quick C++ calculator for performing
+common matrix operations such as addition, subtraction, 
+multiplication and others.
+
+Features
+--------
+    o Compute addition, subtraction and multiplication
+    o Compute inverse, transpose and adjunct of a matrix
+    o Compute matrix - escalar multiplication
+    o Compute power of matrix
+    o Compute Gauss-Jordan elimination, determinant and rank
+    o Copy results to clipboard (CSV format)
+    o Include a mini calculator
+    o Support for integer and floating point numbers,
+
+Requirements
+------------
+MCalx uses FLTK (>=1.3.1) which can be obtained as a package
+on most distributions or from http://www.fltk.org and was
+compiled with g++ (>=4.7)
+
+Installation
+------------
+Just type:
+$ make
+and see inside ./bin directory
+(beta version Makefile has not "install" option)
+
+Feedback
+--------
+Comments, suggestions, bugs reports, new features, etc, send them
+to my email:
+danielome@users.sourceforge.net

@@ -178,13 +178,13 @@ void invMatrix(Sheet* sA, Sheet* sC) {
    Matrix matrix = Sheet2Matrix( sA );
 
    if ( ! is_square( matrix ) ) {
-      fl_alert("La matriz no es cuadrada");
+      fl_alert("The matrix is not square");
       return;
    }
 
 
    if ( fabs(determinante( matrix )) == 0 ) {
-      fl_alert("La matriz no tiene inversa");
+      fl_alert("The matrix has no inverse");
       return;
    }
 

@@ -1,10 +1,6 @@
 /*
  * This file is part of MCalx, a simple GPL matrix calculator
- * 2015  Daniel R. Ome
- * 
- * Based in Rafael Sachetto's lib-matrix
- *
- * Info about matrix 2D: http://www.eld.leidenuniv.nl/~moene/Home/tips/matrix2d/
+ * (c) )2015  Daniel R. Ome
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,6 +79,7 @@ Matrix::Matrix() {
    mRows = 0;
    mCols = 0;
    werror= false;
+   marray= NULL;
 #ifdef DEBUG
    std::cout << "Constructor inicial: " << (long) this << std::endl;
 #endif
@@ -91,6 +88,7 @@ Matrix::Matrix() {
 /* Construct a matrix with rows and cols */
 Matrix::Matrix( int rows , int cols ) {
    if ( (rows >= 1) && (cols >= 1) ) {
+      marray = NULL;
       newMatrix(rows, cols);
    }
 
@@ -102,6 +100,7 @@ Matrix::Matrix( int rows , int cols ) {
 
 /* Construct a copy of matrix named rm (Right Matrix)*/
 Matrix::Matrix( const Matrix& rm ) {
+   marray = NULL;
    newMatrix(rm.getRows(), rm.getCols());
    copyMatrix( rm );
 
@@ -330,247 +329,19 @@ ostream& operator << (ostream& os, const Matrix& rm) {
 
 // End of Operators.
 // ****************************
-
-
-
-
-//bool Matrix::isNull() {
-
-	//if(marray)
-		//return false;
-	//else
-		//return true;
-
-//}
-
-//Matrix Matrix::getTransposed() const {
-
-	//Matrix temp(mCols, mRows);
-	//double aux;
-
-	//for(int i = 0; i < temp.mRows; i++) {
-		//for(int j = 0; j < temp.mCols; j++) {
-			//aux = marray[j][i];
-			//temp.setElem(i,j,aux);			
-		//}
-	//}
-
-	//return temp;
-//}
-
-//Matrix Matrix::getInverseMatrix() {
-
-	//Matrix A(*this);
-	//int n = A.getmCols()-1;
-	//double aux;
-	//Vector *b;
-	//Matrix inverse(n+1,0);
-
-	//for(int i = 1; i <= n; i++) {	
-		//A(i,0) = A(i,0)/A(0,0);	
-	//}
-
-	//for(int i = 1; i <= n; i++) {	
-		//for(int j = i; j <= n; j++) {
-			//aux = A(i,j);
-			//for(int k = 0; k <= i-1; k++) {			
-				//aux = aux - A(i,k)*A(k,j);			
-			//}
-			//A(i,j) = aux;
-		//}
-		//if(i != n) {
-			//for(int j = i+1; j <= n; j++) {
-				//aux = A(j,i);
-				//for(int k = 0; k <= i-1; k++) {			
-					//aux = aux - A(j,k)*A(k,i);			
-				//}
-				//A(j,i) = aux/A(i,i);
-			//}		
-		//}	
-	//}
-
-
-	//for(int i = 0; i <= n; i++) {
-
-		//b = new Vector(n+1);
-		//b->setI(i,1);
-
-		//for(int i = 1; i <= n; i++) {
-			//for(int k = 0; k <= i-1; k++) {	
-				//if(i == k)
-					//aux = 1;
-				//else
-					//aux = A(i,k);	
-				//b->setI(i,(b->getI(i)-aux*b->getI(k)));
-				////b[i] = &b[i]-aux*(b[k]);		
-			//}
-		//}	
-
-		//*b = retroSubstitution(A,*b);
-		//inverse.addColumnRight(*b);
-
-	//}	
-
-	//return inverse;
-//}
-
-//double Matrix::getDeterminant() const {
-
-
-	//Matrix aux(this->getDiagonalMatrix());
-
-	//if(mRows != mCols) {
-		//cerr << "Error getDeterminant()!! ";
-		//exit(0);
-	//}
-
-	//double det = 1;		
-
-	//for(int j = 0; j < mCols; j++) { 
-		//det *= aux.getElem(j,j);;						
-	//}	
-	//return det;	
-//}
-
-//Matrix Matrix::reducedMatrix (MatrixMatrix & m, int offset) {
-
-
-	//Matrix aux(m.mRows-1, m.mCols-1);
-	//int iAux = 0, jAux = 0;
-
-
-	//for(int i = 1; i < m.mRows; i++) {
-		//for(int j = 0; j < m.mCols; j++) {
-
-			//if(j != offset) {
-				//aux.setElem(iAux,jAux,m.marray[i][j]);	
-				//jAux += 1;					
-			//}
-
-			//if((jAux == aux.getmCols()) && (iAux < aux.getmRows())){
-				//iAux+=1;
-				//jAux = 0;								
-			//}							
-		//}	
-
-	//}
-
-	//return aux;
-
-//}
-
-//Vector Matrix::getPrincipalDiagonal() const {
-
-	//if(mRows != mCols) {
-		//cerr << "Error getPrincipalDiagonal()!! " << endl;
-		//exit(0);
-	//}
-
-	//Vector result(mRows);
-	//double aux;
-
-	//for(int i = 0; i < mRows; i++) {
-
-		//aux = marray[i][i];
-		//result.setI(i, aux);
-
-	//}
-
-	//return result;
-
-//}
-
-//Vector Matrix::getSecundaryDiagonal() const {
-
-	//if(mRows != mCols) {
-		//cerr << "Error getSecundaryDiagonal()!! " << endl;
-		//exit(0);
-	//}
-
-	//Vector result(mRows);
-	//double aux;
-
-	//for(int i = mRows-1; i >= 0; i--) {
-
-		//aux = marray[(mRows-1)-i][i];
-		//result.setI((mRows-1)-i, aux);
-
-	//}
-
-	//return result;
-
-//}
-
-//void Matrix::addColumnRight(Vector &b) {
-
-	//if(mRows != b.getSize()) {
-		//cerr << "Error addColumn(Vector &b)!! " << endl;
-		//exit(0);
-	//}
-
-	//Matrix aux(mRows, mCols+1);
-	//double val;
-
-	//for (int i = 0; i < mRows; ++i) {
-		//for (int j = 0; j < mCols; ++j) {
-			//val = this->getElem(i,j);
-			//aux.setElem(i,j, val);
-		//}	
-	//}
-
-	//for (int i = 0; i < mRows; ++i) {
-		//val = b.getI(i);
-		//aux.setElem(i,mCols, val);
-	//}	
-
-	//*this = aux;
-
-//}
-
-//void Matrix::addColumnLeft(Vector &b) {
-
-	//if(mRows != b.getSize()) {
-		//cerr << "Error addColumn(Vector &b)!! " << endl;
-		//exit(0);
-	//}
-
-	//Matrix aux(mRows, mCols+1);
-	//double val;
-
-	//for (int i = 0; i < mRows; ++i) {
-		//for (int j = 0; j < mCols; ++j) {
-			//val = this->getElem(i,j);
-			//aux.setElem(i,j+1, val);
-		//}	
-	//}
-
-	//for (int i = 0; i < mRows; ++i) {
-		//val = b.getI(i);
-		//aux.setElem(i,0, val);
-	//}	
-
-	//*this = aux;
-
-//}
-
-
-//double Matrix::getNorm() const{
-
-	//double sum = 0;
-
-	//for(int i = 0; i < this->getmRows(); i++) {
-		//for(int j = 0; j < this->getmCols(); j++) {
-			//sum += pow(this->getElem(i,j),2);
-		//}
-	//}
-
-	//return sqrt(sum);
-
-//}
-
-//double Matrix::getCond() {
-
-	//return  (this->getNorm())*(this->getInverseMatrix().getNorm());
-
-//}
-
+/*
+int main() {
+   Matrix   a;
+   Matrix   b;
+   Matrix   c;
+
+   c = Matrix(3, 4);
+   Matrix d = c;
+   Matrix e = Matrix( d );
+
+   d = Matrix(5, 7);
+   d = Matrix( c );
+
+   return 0;
+}
+*/

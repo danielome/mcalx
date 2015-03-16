@@ -1,10 +1,6 @@
 /*
  * This file is part of MCalx, a simple GPL matrix calculator
- * 2015  Daniel R. Ome
- * 
- * Based in Rafael Sachetto's lib-matrix
- *
- * Info about matrix 2D: http://www.eld.leidenuniv.nl/~moene/Home/tips/matrix2d/
+ * (c) 2015  Daniel R. Ome
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +34,7 @@ using namespace std;
 class Matrix {
 
    /* Vars */
-	double** marray = NULL; // Array
+	double** marray; // Array
    string   msgerror;      // String msgerror
    bool     werror;        // True with error msg
 	int      mRows, mCols;

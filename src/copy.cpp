@@ -1,3 +1,24 @@
+/*
+ * This file is part of MCalx, a simple GPL matrix calculator
+ * (c) 2015  Daniel R. Ome
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *
+ */
+
 #include <FL/fl_ask.H>
 
 #include <iostream>
@@ -114,121 +135,3 @@ void copyC2CB (Sheet* A) {
    Fl::copy(c, strlen(c), 1);
    return;
 }
-
-
-//void pasteC2CB (Fl_Widget* A) {
-   //int   row = A->rows();
-   //int   col = A->cols();
-
-   //for (int r=0; r<row; r ++) {
-      //for (int c=0; c<col; c ++)
-         //cout << A->getValue(r, c) << ";";
-      //cout << "\n" ;
-   //}
-
-   //char  *s = "12;13;14;16";
-   //Fl::copy(s, strlen(s), 1);
-   //return;
-//}
-
-//void numOp(Sheet *src, double n, Sheet* sC){
-
-   //Matrix2Sheet( (Sheet2Matrix( src ) * n), sC );
-   //return;
-//}
-
-//void powOp(Sheet *src, double n, Sheet* sC){
-   //if (n ==1) {
-      ////Sheet2Sheet(src, sC);
-      //identityMatrix( sC );
-   //}
-   //else {
-      //Matrix   b = Sheet2Matrix( src );
-      //Matrix   c = b;
-
-      //for (int i=1; i<n; i++) b = b * c;
-      //Matrix2Sheet( b, sC );
-   //}
-   //return;
-//}
-
-//void detMatrix(Sheet* src, Display_Text* display, char C) {
-   //double   det;
-   //char     cad[128];
-
-   //Matrix matrix = Sheet2Matrix( src );
-
-   //if ( ! is_square( matrix ) ) {
-      //fl_alert("La matriz no es cuadrada");
-      //return;
-   //}
-
-   //det = determinante( matrix );
-
-   //sprintf(cad, "Determinante de Matriz %c : %0.6f\n\n", C, det);
-   //display->appendBuf( cad );
-   //display->goEnd();
-
-//}
-
-//void rankMatrix(Sheet* src, Display_Text* display, char C) {
-   //double   det;
-   //char     cad[128];
-
-   //Matrix matrix = Sheet2Matrix( src );
-
-   //if ( ! is_square( matrix ) ) {
-      //fl_alert("La matriz no es cuadrada");
-      //return;
-   //}
-
-   //det = determinante( matrix );
-
-   //sprintf(cad, "Rank de Matriz %c : %0.6f\n\n", C, det);
-   //display->appendBuf( cad );
-   //display->goEnd();
-
-//}
-
-//void transposeMatrix(Sheet* src, Sheet* sC) {
-
-   //Matrix2Sheet( transposeMatrix( Sheet2Matrix( src ) ), sC );
-   //return;
-//}
- 
-//void identityMatrix(Sheet* src) {
-
-   //if ( src->rows() != src->cols() ) {
-      //fl_alert("La matriz no es cuadrada");
-      //return;
-   //}
-
-   //int r = src->rows();
-   //src->clearTable();
-   //for (int i=0; i<r; i ++) src->setValue(i, i, 1);
-
-   //return;
-//}
-
-//void GaussJordanMatrix(Sheet* src, Sheet* sC) { return;}
-//void adjunteMatrix(Sheet* src, Sheet* sC) { return;}
-
-//void invMatrix(Sheet* src, Sheet* sC) {
-   //double   det;
-
-   //Matrix matrix = Sheet2Matrix( src );
-
-   //if ( ! is_square( matrix ) ) {
-      //fl_alert("La matriz no es cuadrada");
-      //return;
-   //}
-
-
-   //if ( fabs(determinante( matrix )) == 0 ) {
-      //fl_alert("La matriz no tiene inversa");
-      //return;
-   //}
-
-   //Matrix2Sheet( inverseMatrix( matrix ), sC );
-   //return;
-//}

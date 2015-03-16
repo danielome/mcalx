@@ -1,10 +1,20 @@
 /*
  * This file is part of MCalx, a simple GPL matrix calculator
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+ * (c) )2015  Daniel R. Ome
+=======
+>>>>>>> sf/master
  * 2015  Daniel R. Ome
  * 
  * Based in Rafael Sachetto's lib-matrix
  *
  * Info about matrix 2D: http://www.eld.leidenuniv.nl/~moene/Home/tips/matrix2d/
+<<<<<<< HEAD
+=======
+>>>>>>> github/master
+>>>>>>> sf/master
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,6 +93,13 @@ Matrix::Matrix() {
    mRows = 0;
    mCols = 0;
    werror= false;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+   marray= NULL;
+=======
+>>>>>>> github/master
+>>>>>>> sf/master
 #ifdef DEBUG
    std::cout << "Constructor inicial: " << (long) this << std::endl;
 #endif
@@ -91,6 +108,13 @@ Matrix::Matrix() {
 /* Construct a matrix with rows and cols */
 Matrix::Matrix( int rows , int cols ) {
    if ( (rows >= 1) && (cols >= 1) ) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      marray = NULL;
+=======
+>>>>>>> github/master
+>>>>>>> sf/master
       newMatrix(rows, cols);
    }
 
@@ -102,6 +126,13 @@ Matrix::Matrix( int rows , int cols ) {
 
 /* Construct a copy of matrix named rm (Right Matrix)*/
 Matrix::Matrix( const Matrix& rm ) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+   marray = NULL;
+=======
+>>>>>>> github/master
+>>>>>>> sf/master
    newMatrix(rm.getRows(), rm.getCols());
    copyMatrix( rm );
 
@@ -330,6 +361,27 @@ ostream& operator << (ostream& os, const Matrix& rm) {
 
 // End of Operators.
 // ****************************
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+/*
+int main() {
+   Matrix   a;
+   Matrix   b;
+   Matrix   c;
+
+   c = Matrix(3, 4);
+   Matrix d = c;
+   Matrix e = Matrix( d );
+
+   d = Matrix(5, 7);
+   d = Matrix( c );
+
+   return 0;
+}
+*/
+=======
+>>>>>>> sf/master
 
 
 
@@ -574,3 +626,7 @@ ostream& operator << (ostream& os, const Matrix& rm) {
 
 //}
 
+<<<<<<< HEAD
+=======
+>>>>>>> github/master
+>>>>>>> sf/master

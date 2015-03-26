@@ -28,9 +28,6 @@
 
 using namespace std;
 
-#define DEBUG
-#undef DEBUG
-
 class Matrix {
 
    /* Vars */
@@ -38,6 +35,7 @@ class Matrix {
    string   msgerror;      // String msgerror
    bool     werror;        // True with error msg
 	int      mRows, mCols;
+   bool     bsign;
 
    /* Functions */
 	void     newMatrix(int rows, int cols);
@@ -74,6 +72,12 @@ public:
 	/* Get the number of columns of the matrix */
 	int getCols() const;
 
+	/* Get the sign of determinante */
+	bool getSign() const;
+
+	/* Set the sign of determinante */
+	bool setSign( bool b );
+
    /* Get the string with error message */
    string getMsgError() const;
 
@@ -82,6 +86,12 @@ public:
 
    /* Swap two rows */
    void swapRows(const int, const int );
+
+   /* Set identity matrix */
+   void setIdentity();
+
+   /* Set zero matrix */
+   void setZero();
 
    // End of Methods.
    // ****************************

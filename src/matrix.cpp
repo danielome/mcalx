@@ -54,6 +54,7 @@ void Matrix::copyMatrix(const Matrix& src) {
 
    msgerror = src.msgerror;
    werror   = src.werror;
+   bsign    = src.bsign;
 }
 
 /* Delete memory allocated in a matrix */
@@ -78,6 +79,7 @@ void Matrix::deleteMatrix() {
 Matrix::Matrix() {
    mRows = 0;
    mCols = 0;
+   bsign = false;
    werror= false;
    marray= NULL;
 #ifdef DEBUG
@@ -89,6 +91,7 @@ Matrix::Matrix() {
 Matrix::Matrix( int rows , int cols ) {
    if ( (rows >= 1) && (cols >= 1) ) {
       marray = NULL;
+      bsign = false;
       newMatrix(rows, cols);
    }
 
@@ -101,6 +104,7 @@ Matrix::Matrix( int rows , int cols ) {
 /* Construct a copy of matrix named rm (Right Matrix)*/
 Matrix::Matrix( const Matrix& rm ) {
    marray = NULL;
+   bsign = false;
    newMatrix(rm.getRows(), rm.getCols());
    copyMatrix( rm );
 
@@ -114,6 +118,7 @@ Matrix::Matrix( const Matrix& rm ) {
 Matrix::Matrix(double **arr, int rows , int cols ) {
    if ( (arr != NULL) &&
          (rows >= 1) && (cols >= 1) ) {
+      bsign = false;
       newMatrix(rows, cols);
       for (int i = 0; i < rows; ++i)
          for (int j = 0; j < cols; ++j)
@@ -138,16 +143,39 @@ Matrix::~Matrix() {
 
 // ****************************
 /* Methods */
-int      Matrix::getRows()      const { return mRows; }
-int      Matrix::getCols()      const { return mCols; }
-inline string   Matrix::getMsgError()  const { return msgerror; }
-void     Matrix::swapRows(const int a, const int b) {
-   double      *aux;
+int            Matrix::getRows()      const { return mRows; }
+int            Matrix::getCols()      const { return mCols; }
+inline string  Matrix::getMsgError()  const { return msgerror; }
+void
+Matrix::swapRows(const int a, const int b) {
+   double   *aux;
 
    aux       = marray[a];
    marray[a] = marray[b];
    marray[b] = aux;
 }
+void Matrix::setIdentity() {
+   this->setZero();
+
+   int   rows = mRows;
+   int   cols = mCols;
+   int   r, c;
+
+   for (c=0; c<cols; c ++) { marray[c][c] = 1; }
+}
+
+
+void Matrix::setZero() {
+   int   rows = mRows;
+   int   cols = mCols;
+   int   r, c;
+
+   for (r=0; r<rows; r ++) for (c=0; c<cols; c ++) { marray[r][c] = 0; }
+}
+
+bool Matrix::getSign() const { return bsign ;}
+
+bool Matrix::setSign( bool b ) { return (bsign=b) ;}
 
 /* End of Methods */
 // ****************************

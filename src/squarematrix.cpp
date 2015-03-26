@@ -82,6 +82,7 @@ double determinante (const Matrix& m) {
          /* Calculate determinant of the matrix */
          for (int _col=0; _col<cols; _col++)
             det = det * tmp(_col, _col);
+         if (tmp.getSign()) { det = -det; }
          break;
    }
 

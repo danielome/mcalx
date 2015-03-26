@@ -129,5 +129,6 @@ Matrix GaussJordan(const Matrix& orig) {
       }
    }
 
-   return tmp * sign;
+   tmp.setSign( (sign==-1) ? true : false );
+   return tmp;
 }

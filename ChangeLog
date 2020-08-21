@@ -1,0 +1,12 @@
+
+What's new in version 0.1.5b
+
+* Fix compiling errors and warnings in code source.
+* Fixed Esc key for avoid close the program.
+* Add Fl_Scientific Button for Inverse matrix button.
+  (see code source for credits)
+* Add format precision for show values in matrices.
+* Add config file for store/restore matrices precision 
+  and delimiters chars for CSV files.
+
+* ----------------------------------------------------

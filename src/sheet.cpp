@@ -19,11 +19,20 @@
  *
  */
 
+/*
+ * -------------------------------------
+ *  Sheet is a class for show and edit
+ *  a matrix in screen.
+ * -------------------------------------
+ */
 
 #include <iostream>
 #include "sheet.h"
 
 using namespace std;
+
+#define TRUE	true
+#define FALSE	false
 
 /* ----------------- */
 void msg(const char *mess) {
@@ -39,7 +48,7 @@ char* itoa(int val){
    return &buf[i+1];
 }
 
-/* ----------------- */
+/* ----- Constructor ------------ */
 Sheet::Sheet(int X,int Y,int W,int H,const char* L=0) :
    Fl_Table(X,Y,W,H-40,L) {
       callback(&event_callback, (void*)this);
@@ -60,6 +69,7 @@ Sheet::Sheet(int X,int Y,int W,int H,const char* L=0) :
       for (int c = 0; c < MAX_COLS; c++)
          for (int r = 0; r < MAX_ROWS; r++)
             values[r][c] = 0;		   // initialize cells
+
       end();
 
       row_edit = col_edit = 0;
@@ -72,8 +82,9 @@ Sheet::Sheet(int X,int Y,int W,int H,const char* L=0) :
       inpRow=NULL;
       inpCol=NULL;
 
-      rows( 3 );
-      cols( 3 );
+      rows( 3 );  	// Function of Fl_Table set or get row
+      cols( 3 );  	// Function of Fl_Table set or get col
+      precision = 2;// Default precision
 }
 
 /* ----------------- */
@@ -83,9 +94,9 @@ Sheet::~Sheet() { msg("juaz");}
 void Sheet::enabled( bool b ) { enable = b; }
 
 /* ----------------- */
-double Sheet::getValue(int r, int c) { return values[r][c]; }
+float Sheet::getValue(int r, int c) { return values[r][c]; }
 /* ----------------- */
-void   Sheet::setValue(int r, int c, double v) { values[r][c] = v; }
+void   Sheet::setValue(int r, int c, float v) { values[r][c] = v; }
 
 /* ----------------- */
 void Sheet::set_value_hide() {
@@ -116,7 +127,7 @@ void Sheet::start_editing(int R, int C) {
       //cout << "find: " << k << endl;
       //cout << "----------------: " << endl;
       input->resize(X,Y,W,H);
-      sprintf(s, "%0.3f", values[R][C]);
+      sprintf(s, "%0.7f", values[R][C]); /* Precision by default */
       input->value(s);
       input->position(0, strlen(s));
       input->show();
@@ -125,7 +136,15 @@ void Sheet::start_editing(int R, int C) {
 }
 
 /* ----------------- */
-void Sheet::done_editing() { if (input->visible()) set_value_hide(); }
+void Sheet::done_editing( bool status ) {	/* 1: Set value ; 0: No set value */
+	if (input->visible()) {
+		if ( status ) values[row_edit][col_edit] = atof(input->value());
+	    input->hide();
+	    window()->cursor(FL_CURSOR_DEFAULT);
+	    take_focus();
+	}
+	return;
+}
 
 /* ----------------- */
 void Sheet::draw_cell(TableContext context, int R,int C, int X,int Y,int W,int H) {
@@ -152,7 +171,7 @@ void Sheet::draw_cell(TableContext context, int R,int C, int X,int Y,int W,int H
             static char s[30];
             fl_color(FL_BLACK);
             fl_font(FL_HELVETICA, 10);		// ..in regular font
-            sprintf(s, "%0.4f", (double) values[R][C]); // DANIEL OME
+            sprintf(s, "%0.*f", precision, (float) values[R][C]); // Show values with precision
             fl_draw(s, X+3,Y+3,W-6,H-6, FL_ALIGN_RIGHT);
          }
          fl_pop_clip();
@@ -179,8 +198,6 @@ void Sheet::draw_cell(TableContext context, int R,int C, int X,int Y,int W,int H
 int Sheet::handle( int event ) {
    switch ( event ) {
       case FL_PUSH:
-
-
          //int R;
          //int C;
          //ResizeFlag resizeflag;
@@ -230,7 +247,7 @@ int Sheet::handle( int event ) {
             //cout << ((hcell<=evy) && (evy<tih)) << endl;
             if ( ((wcell<=evx) && (evx<tiw)) ||
                   ((hcell<=evy) && (evy<tih)) ) {
-               done_editing();
+               done_editing( TRUE );
                return 0; }
          }
          return Fl_Table::handle(event);
@@ -243,6 +260,7 @@ int Sheet::handle( int event ) {
 
 /* ----------------- */
 void Sheet::clearTable() {
+	cout << sizeof( values ) << "\n";
    for (int row=0; row<MAX_ROWS; row++)
       for (int col=0; col<MAX_COLS; col++)
          values[row][col] = 0;
@@ -259,13 +277,16 @@ void Sheet::event_callback2() {
       case CONTEXT_CELL:
          switch (Fl::event()) {
             case FL_PUSH:
-               done_editing();
+               done_editing( TRUE );
                start_editing(R,C);
                return;
                break;
 
             case FL_KEYBOARD:				// key press in table?
-               if ( Fl::event_key() == FL_Escape ) { exit(0); }
+               if ( Fl::event_key() == FL_Escape ) { 
+            	   done_editing( FALSE );
+            	   return;
+               }
                if ( Fl::event_key() == FL_Tab ) {
                   if ( move_cursor(0, 1) == 0 ) {
                      move_cursor(0, -1000000);
@@ -273,7 +294,7 @@ void Sheet::event_callback2() {
                         move_cursor(-1000000, 0);
                   }
                }
-               done_editing();				// finish any previous editing
+               done_editing( TRUE );	// finish any previous editing
 
                //if ( Fl::event_key() == FL_Home ) {
                //std::cout << "KEY HOME\n";
@@ -283,7 +304,6 @@ void Sheet::event_callback2() {
                   //int key = Fl::event_key();
                   //std::cout << "KEY CTRL: " << key << "\n";
                //}
-
 
                switch ( Fl::e_text[0] ) {
                   case '0': case '1': case '2': case '3':	// any of these should start editing new cell
@@ -306,7 +326,7 @@ void Sheet::event_callback2() {
       case CONTEXT_TABLE:					// A table event occurred on dead zone in table
       case CONTEXT_ROW_HEADER:				// A table event occurred on row/column header
       case CONTEXT_COL_HEADER:
-          done_editing();					// done editing, hide
+          done_editing( TRUE );					// done editing, hide
           return;
           break;
 
@@ -344,3 +364,35 @@ void Sheet::input2cols() {
 
    return;
 }
+/* ----------------- */
+int Sheet::getRows() { return rows() ; }
+/* ----------------- */
+int Sheet::getCols() { return cols() ; }
+/* ----------------- */
+void Sheet::setRows( int i ) {
+   if ( (i >= 1) && (i <= MAX_ROWS) )
+      rows( i );
+   else
+      rows( 3 );
+
+   return;
+}
+/* ----------------- */
+void Sheet::setCols( int i ) {
+   if ( (i >= 1) && (i <= MAX_COLS) )
+      cols( i );
+   else
+      cols( 3 );
+
+   return;
+}
+/* ----------------- */
+void Sheet::setPrecision( int p ) {
+   if ( (p >= 1) && (p <= 8 ) )
+      precision = p;
+   redraw();
+
+   return;
+}
+/* ----------------- */
+int Sheet::getPrecision() { return precision ;}

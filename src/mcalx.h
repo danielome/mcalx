@@ -22,6 +22,7 @@
 #ifndef _MCALX_H
 #define _MCALX_H
 
+#include <FL/Fl.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Table.H>
@@ -33,6 +34,7 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Menu_Button.H>
 #include <FL/Fl_Pixmap.H>
+#include <FL/Fl_RGB_Image.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Multiline_Output.H>
@@ -40,8 +42,10 @@
 #include <stdint.h>
 
 #include "pix/icon.xpm"
+#include "Fl_Scientific_Button.h"
 #include "logdisplay.h"
 #include "sheet.h"
+#include "config.h"
 #include "copy.h"
 #include "operations.h"
 #include "mcalx.h"
@@ -77,15 +81,10 @@ You should have received a copy of the GNU General Public License\n\
 along with Mcalx; if not, write to the Free Software Foundation,Inc.,\n\
 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n";
 
-static void cb_copyMatrix(Fl_Widget* , void* );
-static void cb_quit      (Fl_Widget* , void* );
-static void cb_aboutMsg  (Fl_Widget* , void* );
-
-Fl_Menu_Item menu_Menu[] = {
-   {"&Quit",  0,  cb_quit, 0, 0, FL_NORMAL_LABEL, 0, 12, 0},
-   {"&About", 0,  cb_aboutMsg, 0, 0, FL_NORMAL_LABEL, 0, 12, 0},
-   {0,0,0,0,0,0,0,0,0},
-};
+static void cb_copyMatrix  (Fl_Widget* , void* );
+static void cb_quit        (Fl_Widget* , void* );
+static void cb_preferences (Fl_Widget* , void* );
+static void cb_aboutMsg    (Fl_Widget* , void* );
 
 Fl_Menu_Item menu_A[] = {
    {"Buffer 1", 0,  0, 0, 0, FL_NORMAL_LABEL, 0, 12, 0},

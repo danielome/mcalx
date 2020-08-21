@@ -28,14 +28,16 @@
 
 using namespace std;
 
+#define DEBUG
+#undef DEBUG
+
 class Matrix {
 
    /* Vars */
-	double** marray; // Array
+	float** marray; // Array
    string   msgerror;      // String msgerror
    bool     werror;        // True with error msg
 	int      mRows, mCols;
-   bool     bsign;
 
    /* Functions */
 	void     newMatrix(int rows, int cols);
@@ -55,7 +57,7 @@ public:
 	Matrix( const Matrix& rm );
 
    /* Construct a matrix based in an array, rows and cols */
-	Matrix(double **arr, int rows , int cols );
+	Matrix(float **arr, int rows , int cols );
 
 	// Destructor.
 	/* Destroy the object */
@@ -72,12 +74,6 @@ public:
 	/* Get the number of columns of the matrix */
 	int getCols() const;
 
-	/* Get the sign of determinante */
-	bool getSign() const;
-
-	/* Set the sign of determinante */
-	bool setSign( bool b );
-
    /* Get the string with error message */
    string getMsgError() const;
 
@@ -87,22 +83,16 @@ public:
    /* Swap two rows */
    void swapRows(const int, const int );
 
-   /* Set identity matrix */
-   void setIdentity();
-
-   /* Set zero matrix */
-   void setZero();
-
    // End of Methods.
    // ****************************
 
    // ****************************
    // Operators.
    /* Set an element on matrix. Position (row, col) */
-	double& operator ()(int, int );
+	float& operator ()(int, int );
 
    /* Get an element on matrix. Position (row, col) */
-	double  operator ()(int , int ) const; 
+	float  operator ()(int , int ) const; 
 
    /* Compare two matrix */
    bool operator == (const Matrix& rm) const ;
@@ -123,16 +113,16 @@ public:
    friend Matrix operator * (const Matrix& m, const Matrix& n);
 
    /* Multiplies one matrix with one number */
-   friend Matrix operator * (const Matrix& m, const double num);
+   friend Matrix operator * (const Matrix& m, const float num);
 
    /* Multiplies one number with one matrix */
-   friend Matrix operator * (const double num, const Matrix& m);
+   friend Matrix operator * (const float num, const Matrix& m);
 
    /* Divide two matrices */
    friend Matrix operator / (const Matrix& m, const Matrix& n);
 
    /* Divide one matrix with one number */
-   friend Matrix operator / (const Matrix& m, const double num);
+   friend Matrix operator / (const Matrix& m, const float num);
 
    /* Print all elements of matrix */
    friend ostream& operator << (ostream& os, const Matrix& rm);

@@ -21,19 +21,19 @@
 
 #include "matrix.h"
 
-int lowerTriangle(double **array, int rows, int cols, int &sign) {
+int lowerTriangle(float **array, int rows, int cols, int &sign) {
 
    /* Begin Gauss's elimination ... */
    int      _row, _col;
    int      diag;
    bool     nozero = true;
-   double   **low;
+   float   **low;
 
-   low = new double * [rows];
+   low = new float * [rows];
 
    /* Allocate lower triangle matrix */
    for (_row=0; _row<rows; _row++) {
-      low[_row] = new double [cols];
+      low[_row] = new float [cols];
       for (_col=0; _col<cols; _col++)
          low[_row][_col] = 0;
    }
@@ -47,7 +47,7 @@ int lowerTriangle(double **array, int rows, int cols, int &sign) {
             if (array[diag][_row] != 0) {
                nozero = true;
 
-               double      *aux;          /* Swap two rows */
+               float      *aux;          /* Swap two rows */
                aux         = array[_row];
                array[_row] = array[diag];
                array[diag] = aux;
@@ -60,7 +60,7 @@ int lowerTriangle(double **array, int rows, int cols, int &sign) {
       if ( nozero ) {
          low[_row][_row] = 1;
          for( int rowpiv=_row+1; rowpiv < rows; rowpiv ++) {
-            double factor = array[rowpiv][_row] / array[_row][_row];
+            float factor = array[rowpiv][_row] / array[_row][_row];
             for(_col=_row; _col < cols; _col++) {
                array[rowpiv][_col] -= array[_row][_col] * factor;
                if ( fabs(array[rowpiv][_col]) <= 0.000001) { array[rowpiv][_col] = 0; }
@@ -95,7 +95,7 @@ Matrix GaussJordan(const Matrix& orig) {
    int      diag;
    int      rows, cols;
    bool     nozero = true;
-   double   pivote;
+   float   pivote;
    Matrix   tmp = orig;
    int      sign = 1;
 
@@ -118,7 +118,7 @@ Matrix GaussJordan(const Matrix& orig) {
       if ( nozero ) {
          pivote = tmp(_row, _row);
          for( int rowpiv=_row+1; rowpiv < rows; rowpiv ++) {
-            double rowinit = tmp(rowpiv, _row);
+            float rowinit = tmp(rowpiv, _row);
             for(_col=_row; _col < cols; _col++) {
                tmp(rowpiv, _col) -= rowinit * tmp(_row, _col) / pivote;
                if ( fabs(tmp(rowpiv, _col)) <= 0.0001) { tmp(rowpiv, _col) = 0; }
@@ -129,6 +129,5 @@ Matrix GaussJordan(const Matrix& orig) {
       }
    }
 
-   tmp.setSign( (sign==-1) ? true : false );
-   return tmp;
+   return tmp * sign;
 }

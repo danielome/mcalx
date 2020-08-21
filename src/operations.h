@@ -30,9 +30,9 @@ enum typeOp { ADD, SUB, MUL };
 
 void basicOp (Sheet* , Sheet* , Sheet* , typeOp) ;
 
-void numOp(Sheet* , double , Sheet* );
+void numOp(Sheet* , float , Sheet* );
 
-void powOp(Sheet* , double , Sheet* );
+void powOp(Sheet* , float , Sheet* );
 
 void transposeMatrix(Sheet* , Sheet* );
 

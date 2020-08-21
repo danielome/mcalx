@@ -1,5 +1,9 @@
-# 676274ff970800dacbae7533206d76a4
-CFLAGS=-O$(O) -I/usr/include/freetype2 -mtune=generic -O2 -pipe --param=ssp-buffer-size=4 -fvisibility-inlines-hidden -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_THREAD_SAFE -D_REENTRANT
+# Makefile
+# mcalx
+#  12 / 07 / 2017
+#  --------------
+#
+CFLAGS=-O$(O) -I/usr/include/freetype2 -mtune=generic -O2 -Wall -pipe --param=ssp-buffer-size=4 -fvisibility-inlines-hidden -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_THREAD_SAFE -D_REENTRANT -std=c++11
 O=2
 LFLAGS=-Wl,-rpath,/usr/lib -Wl,-O1,--sort-common,--as-needed,-z,relro -lfltk -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
 
@@ -10,16 +14,28 @@ else
 	CFLAGS+=-fstack-protector
 endif
 
-OBJS=objs/transpose.o objs/operations.o objs/logdisplay.o objs/matrix.o objs/sheet.o objs/squarematrix.o objs/upper_lower.o objs/mcalx.o objs/copy.o objs/calc.o
+OBJS=objs/Fl_Scientific_Button.o objs/transpose.o objs/operations.o objs/logdisplay.o objs/matrix.o objs/sheet.o objs/squarematrix.o objs/upper_lower.o objs/mcalx.o objs/copy.o objs/calc.o objs/config.o
 
 
-.PHONY: all
-all: objs mcalx
 
-mcalx: $(OBJS)
+# compile all
+.PHONY: a all
+a: all
+all: mcalx
+mcalx: objs $(OBJS)
 	@ echo "    LINK bin/mcalx"
 	@ $(CXX) $(OBJS) -o "bin/mcalx" $(LFLAGS)
 
+objs:
+	@ mkdir "objs"
+
+objs/config.o: src/config.cpp src/config.h
+	@ echo "    CXX  src/config.cpp"
+	@ $(CXX) $(CFLAGS) -c "src/config.cpp" -o $@
+
+objs/Fl_Scientific_Button.o: src/Fl_Scientific_Button.cpp src/Fl_Scientific_Button.h
+	@ echo "    CXX  src/Fl_Scientific_Button.cpp"
+	@ $(CXX) $(CFLAGS) -c "src/Fl_Scientific_Button.cpp" -o $@
 objs/transpose.o: src/transpose.cpp src/matrix.h
 	@ echo "    CXX  src/transpose.cpp"
 	@ $(CXX) $(CFLAGS) -c "src/transpose.cpp" -o $@
@@ -55,29 +71,36 @@ objs/calc.o: src/calcu/small.c
 	@ echo "    CXX  src/calcu/small.c"
 	@ $(CXX) $(CFLAGS) -c "src/calcu/small.c" -o $@
 
-objs:
-	@ mkdir "objs"
+
+# clean all
 .PHONY: c clean
 c: clean
 clean:
-	@ if [ -d "objs" ]; then cd "objs" ; rm -r *.o; fi
+	@ if [ -d "objs" ]; then rm -rf "objs" ; fi
 	@ rm -f "bin/mcalx"
 	@ echo "    CLEAN"
+
+# clean and compile
 .PHONY: f fresh
 f: fresh
 fresh: clean
 	@ make all --no-print-directory
+
+# compile and run
 .PHONY: r run
 r: run
 run: all
 	@ ./bin/mcalx
 
+# compile with debugging
 .PHONY: d debug
 d: debug
 debug: CFLAGS += -DDEBUG -g3 -Wall -Wextra
 debug: O=0
 debug: all
 
-.PHONY: check-syntax
+# check syntax
+.PHONY: s check-syntax
+s: check-syntax
 check-syntax:
 	$(CXX) $(CFLAGS) -fsyntax-only -Wall -o /dev/null -S $(CHK_SOURCES)

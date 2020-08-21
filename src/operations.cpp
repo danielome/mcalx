@@ -102,13 +102,13 @@ void basicOp (Sheet* sA, Sheet* sB, Sheet* sC, typeOp oper) {
 
 }
 
-void numOp(Sheet *sA, double n, Sheet* sC){
+void numOp(Sheet *sA, float n, Sheet* sC){
 
    Matrix2Sheet( (Sheet2Matrix( sA ) * n), sC );
    return;
 }
 
-void powOp(Sheet *sA, double n, Sheet* sC){
+void powOp(Sheet *sA, float n, Sheet* sC){
    if (n ==1) {
       //Sheet2Sheet(sA, sC);
       identityMatrix( sC );
@@ -124,7 +124,7 @@ void powOp(Sheet *sA, double n, Sheet* sC){
 }
 
 void detMatrix(Sheet* sA, Display_Text* display, char C) {
-   double   det;
+   float   det;
    char     cad[128];
 
    Matrix matrix = Sheet2Matrix( sA );
@@ -148,7 +148,7 @@ void rankMatrix(Sheet* sA, Display_Text* display, char C) {
 
    Matrix matrix = Sheet2Matrix( sA );
 
-   number = rank( matrix );
+   number = rank_( matrix );
 
    sprintf(cad, "rank (%c) : %i\n\n", C, number);
    display->appendBuf( cad );
@@ -175,7 +175,7 @@ void identityMatrix(Sheet* sA) {
 }
 
 void adjunteMatrix(Sheet* sA, Sheet* sC) {
-   double   det;
+   float   det;
 
    Matrix matrix = Sheet2Matrix( sA );
 
@@ -194,7 +194,6 @@ void adjunteMatrix(Sheet* sA, Sheet* sC) {
 }
 
 void invMatrix(Sheet* sA, Sheet* sC) {
-   double   det;
 
    Matrix matrix = Sheet2Matrix( sA );
 

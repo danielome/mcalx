@@ -85,14 +85,14 @@ void Sheet2Sheet (Sheet* src, Sheet* des) {
 }
 
 void swapMatrix(Sheet* A, Sheet* B) {
-   double   **tmp;
+   float    **tmp;
    int      rowtmp, coltmp;
 
    rowtmp = A->rows();
    coltmp = A->cols();
-	tmp = new double * [rowtmp];
+	tmp = new float  * [rowtmp];
 	for(int row = 0; row < rowtmp; row++) {
-		tmp[row] = new double [coltmp];
+		tmp[row] = new float  [coltmp];
 		for (int col=0; col<coltmp; col++)
 			tmp[row][col] = A->getValue(row, col);
 	}

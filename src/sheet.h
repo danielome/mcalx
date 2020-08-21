@@ -44,14 +44,19 @@ char* itoa(int );
 
 class Sheet : public Fl_Table {
    Fl_Float_Input *input;
-   double         values[MAX_ROWS][MAX_COLS];
+   float          values[MAX_ROWS][MAX_COLS];
    int            row_edit, col_edit;
    bool           enable;
    bool           havefocus;
    Fl_Int_Input   *inpRow;
    Fl_Int_Input   *inpCol;
+   int            precision;
 
 protected:
+   void     set_value_hide();
+   void     start_editing(int , int );
+   void     done_editing( bool );
+   /* *** */
    void draw_cell(TableContext ,int ,int ,int ,int ,int ,int);
    void event_callback2();				// table's event callback (instance)
    static void event_callback(Fl_Widget*,void *v) { ((Sheet*)v)->event_callback2(); }
@@ -62,12 +67,9 @@ public:
    ~Sheet();
    int      handle (int e);
    void     clearTable();
-   void     enabled( bool  );
-   void     set_value_hide();
-   void     start_editing(int , int );
-   void     done_editing();
-   double   getValue(int, int);
-   void     setValue(int , int , double );
+   void     enabled( bool );
+   float    getValue(int, int);
+   void     setValue(int , int , float );
    void     setIRow(Fl_Int_Input* );
    bool     is_setIRow();
    void     setICol(Fl_Int_Input* );
@@ -75,6 +77,12 @@ public:
    void     cols2input();
    void     input2rows();
    void     input2cols();
+   int      getRows();
+   int      getCols();
+   void     setRows( int );
+   void     setCols( int );
+   void     setPrecision( int );
+   int      getPrecision();
 };
 
 #endif

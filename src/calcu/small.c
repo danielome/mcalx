@@ -50,7 +50,7 @@ easy (ceil); easy (floor);
 easy (bin, 2); easy (oct, 8); easy (dec, 10); easy (hex, 16);
 #undef easy
 
-static char *funn [] = { "sin",	"cos", "tan", "sinh", "cosh", "tanh", "asin", "acos",
+static const char *funn [] = { "sin",	"cos", "tan", "sinh", "cosh", "tanh", "asin", "acos",
 			 "atan", "log",	"log10", "exp",	"abs", "sqrt", "ceil", "floor",
 			 "bin",	"oct", "dec", "hex" };
 static funtype funp [] = { fun_sin, fun_cos, fun_tan, fun_sinh,	fun_cosh, fun_tanh, fun_asin,
@@ -71,7 +71,7 @@ static void skipspace (void)
       str ++;
 }
 
-int matchops (char *name)
+int matchops (const char *name)
 {
    skipspace ();
    if (strncmp (str, name, strlen (name)))
@@ -114,7 +114,8 @@ static ftype readnum (void)
    }
    else
    {
-      for (top = str; isintvar (*str); str ++);	end = str;
+      for (top = str; isintvar (*str); str ++); 
+      end = str;
       if (!matchops ("("))
 	 error (-3);
       val = expr ();

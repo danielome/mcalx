@@ -25,7 +25,7 @@
 #include <iostream>
 #include "matrix.h"
 
-int lowerTriangle(double **, int , int , int & ) ;
+int lowerTriangle(float **, int , int , int & ) ;
 
 Matrix GaussJordan(const Matrix& ) ;
 

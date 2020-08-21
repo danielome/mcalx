@@ -42,8 +42,8 @@ bool is_idempotent (const Matrix& m) {
    return ( m == (m * m) );
 }
 
-double trace (const Matrix& m) {
-   double   res = 0;
+float trace (const Matrix& m) {
+   float   res = 0;
    int      cols;
 
    cols = m.getCols();
@@ -54,9 +54,9 @@ double trace (const Matrix& m) {
    return res;
 }
 
-double determinante (const Matrix& m) {
+float determinante (const Matrix& m) {
    Matrix   tmp;
-   double   det = 1.0;
+   float   det = 1.0;
    //int      sign = 1;
    int      cols;
 
@@ -82,7 +82,6 @@ double determinante (const Matrix& m) {
          /* Calculate determinant of the matrix */
          for (int _col=0; _col<cols; _col++)
             det = det * tmp(_col, _col);
-         if (tmp.getSign()) { det = -det; }
          break;
    }
 
@@ -100,7 +99,7 @@ Matrix identityMatrix(const int rc) {
 }
 
 Matrix inverseMatrix (const Matrix& m) {
-   double   **array;
+   float   **array;
    int      rows, cols;
    int      sign;
    bool     nozero;
@@ -109,9 +108,9 @@ Matrix inverseMatrix (const Matrix& m) {
    if ( m.getRows() == m.getCols() ) {    // Accept just square matrix
       rows = cols = m.getRows();
 
-      array= new double * [rows];
+      array= new float * [rows];
       for(int row = 0; row < rows; row ++) {
-         array[row] = new double [2*cols];
+         array[row] = new float [2*cols];
          for (int col=0; col < cols; col ++) {   // Fill array with zeros ...
             array[row][col]       = m(row, col);
             array[row][cols + col]= 0;
@@ -129,7 +128,7 @@ Matrix inverseMatrix (const Matrix& m) {
             nozero = false;
             for (int nrow=row+1; ((nrow < rows) && !nozero); nrow ++) {
                if (array[nrow][row] != 0) {
-                  double      *aux;          /* Swap two rows */
+                  float      *aux;          /* Swap two rows */
 
                   nozero      = true;
                   aux         = array[row];
@@ -148,7 +147,7 @@ Matrix inverseMatrix (const Matrix& m) {
             /* Divide */
             for (int nrow=0; nrow<rows; nrow ++) {
                if ( nrow != row ) {
-                  double factor = array[nrow][row];
+                  float factor = array[nrow][row];
                   for (int ncol=0; ncol<cols; ncol ++) {
                      array[nrow][ncol] -= factor * array[row][ncol];
                      if ( fabs(array[nrow][ncol]) < 0.000001)
@@ -179,9 +178,8 @@ Matrix inverseMatrix (const Matrix& m) {
    return tmp;
 }
 
-int rank(const Matrix& m) {
+int rank_(const Matrix& m) {
    Matrix   tmp;
-   double   det = 1.0;
    int      cont = 0;
    int      rows, cols;
 
@@ -202,9 +200,7 @@ int rank(const Matrix& m) {
 }
 
 Matrix adjCofactor(const Matrix& m) {
-   double   **array;
    int      rows, cols;
-   int      sign;
    Matrix   tmp = m;
    Matrix   cof;
 
